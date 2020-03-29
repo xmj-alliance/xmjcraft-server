@@ -1,0 +1,49 @@
+{
+  "name": "xmjcraft-server",
+  "version": "1.0.0",
+  "description": "xmjcraft-server",
+  "main": "xmjcraft.js",
+  "scripts": {
+    "start": "node dist/xmjcraft",
+    "build": "npm run build:prod",
+    "build:dev": "cross-env NODE_ENV=development webpack",
+    "build:prod": "cross-env NODE_ENV=production webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xmj-alliance/xmjcraft-server.git"
+  },
+  "keywords": [
+    "koa",
+    "server"
+  ],
+  "author": "xmj-alliance",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xmj-alliance/xmjcraft-server/issues"
+  },
+  "homepage": "https://github.com/xmj-alliance/xmjcraft-server#readme",
+  "dependencies": {
+    "@koa/cors": "^3.0.0",
+    "@koa/router": "^8.0.8",
+    "koa": "^2.11.0",
+    "koa-logger": "^3.2.1",
+    "koa-static": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.11.3",
+    "@types/koa-logger": "^3.1.1",
+    "@types/koa-static": "^4.0.1",
+    "@types/koa__cors": "^3.0.1",
+    "@types/node": "^13.9.5",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.1.1",
+    "cross-env": "^7.0.2",
+    "ts-loader": "^6.2.2",
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-node-externals": "^1.7.2"
+  }
+}
