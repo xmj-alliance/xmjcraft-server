@@ -122,4 +122,4 @@ package-*.json
 src/configs/**
 src/statics/**
 !.gitkeep
-!*.example.*
+!*example.*
