@@ -8,7 +8,7 @@ import * as logger from "koa-logger";
 import * as cors from "@koa/cors";
 import * as serve from 'koa-static';
 import { parse } from 'yaml';
-
+import RootGraph from './controllers/indexGraph';
 
 class App {
   app = new Koa();
@@ -17,6 +17,7 @@ class App {
   clientPath = resolve(__dirname, "./statics/client");
   configPath = resolve(__dirname, "./configs");
   server: Server;
+  gqlServer = new RootGraph().server;
 
   loadConfig = () => {
     this.loadConfigMain();
@@ -84,6 +85,15 @@ class App {
     
     // load env
     this.loadENV();
+
+    // activate graphQL endpoint
+    this.gqlServer.applyMiddleware(
+      {
+        app: this.app,
+        path: `/gql`
+      }
+    )
+
     // Listen
     this.server = createServer(this.app.callback())
       .listen(this.port, this.host, this.report)
