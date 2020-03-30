@@ -7,8 +7,11 @@ import * as Koa from "koa";
 import * as logger from "koa-logger";
 import * as cors from "@koa/cors";
 import * as serve from 'koa-static';
+import * as Router from "@koa/router";
 import { parse } from 'yaml';
+
 import RootGraph from './controllers/indexGraph';
+import APIRoute from './controllers/apiRoute';
 
 class App {
   app = new Koa();
@@ -18,6 +21,7 @@ class App {
   configPath = resolve(__dirname, "./configs");
   server: Server;
   gqlServer = new RootGraph().server;
+  router = new Router();
 
   loadConfig = () => {
     this.loadConfigMain();
@@ -93,6 +97,12 @@ class App {
         path: `/gql`
       }
     )
+
+    // activate readiness probe endpoint
+    let apiRoute = new APIRoute().router;
+    this.router.use("/api", apiRoute.routes(), apiRoute.allowedMethods());
+    this.app.use(this.router.routes())
+            .use(this.router.allowedMethods());
 
     // Listen
     this.server = createServer(this.app.callback())
