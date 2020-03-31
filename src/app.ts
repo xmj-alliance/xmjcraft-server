@@ -17,7 +17,6 @@ import { loadENV } from './lib';
 class App {
   app = new Koa();
   clientPath = resolve(__dirname, "./statics/client");
-  configPath = resolve(__dirname, "./configs");
   server: Server;
   gqlServer = new RootGraph().server;
   router = new Router();
