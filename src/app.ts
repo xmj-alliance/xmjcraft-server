@@ -1,77 +1,36 @@
 import { resolve } from 'path';
 import { createServer, Server } from 'http';
 import { AddressInfo } from 'net';
-import { readFileSync } from 'fs';
 
 import * as Koa from "koa";
 import * as logger from "koa-logger";
 import * as cors from "@koa/cors";
 import * as serve from 'koa-static';
 import * as Router from "@koa/router";
-import { parse } from 'yaml';
 
 import RootGraph from './controllers/indexGraph';
 import APIRoute from './controllers/apiRoute';
+import Database from './database';
+import Config from './config';
+import { loadENV } from './lib';
 
 class App {
   app = new Koa();
-  port = 3000;              // env: KOA_PORT
-  host = "127.0.0.1";       // env: KOA_HOST
   clientPath = resolve(__dirname, "./statics/client");
   configPath = resolve(__dirname, "./configs");
   server: Server;
   gqlServer = new RootGraph().server;
   router = new Router();
 
-  loadConfig = () => {
-    this.loadConfigMain();
-    this.loadConfigSecrets();
-  };
+  configMap = new Map<string, any>([
+    ["host", "127.0.0.1"],
+    ["port", 3000],
+  ]);
 
-  loadConfigMain = () => {
-    // load main config
-    let configFileContent = "";
-    try {
-      configFileContent = readFileSync( resolve(`${this.configPath}/main.yaml`), "utf8");
-      let config = parse(configFileContent);
-      if (!config) {
-        return;
-      }
-
-      // extract koa config
-      if (config.koa) {
-        if (config.koa.port) {process.env.KOA_PORT = config.koa.port}
-        if (config.koa.host) {process.env.KOA_HOST = config.koa.host}
-      }
-      
-    } catch (error) {
-      console.warn(`Failed to load main config: \n ${error}`);
-    }
-  };
-
-  loadConfigSecrets = () => {
-    // load secrets config
-    let configFileContent = "";
-    try {
-      configFileContent = readFileSync( resolve(`${this.configPath}/secrets.yaml`), "utf8");
-      let config = parse(configFileContent);
-      if (!config) {
-        return;
-      }
-
-      // Load the secrets here ...
-      
-    } catch (error) {
-      console.warn(`Failed to load secrets config: \n ${error}`);
-    }
-  };
-
-  loadENV = () => {
-
-    this.port = (process.env.KOA_PORT? process.env.KOA_PORT: this.port) as number;
-    this.host = (process.env.KOA_HOST? process.env.KOA_HOST: this.host);
-
-  };
+  envMap = new Map([
+    ["host", "KOA_HOST"],
+    ["port", "KOA_PORT"],
+  ]);
 
   report = () => {
     const { address, port } = this.server.address() as AddressInfo;
@@ -84,11 +43,14 @@ class App {
     this.app.use(cors());
     this.app.use(serve(this.clientPath));
 
-    // load config to env
-    this.loadConfig();
-    
+    // init env
+    new Config();
+
     // load env
-    this.loadENV();
+    loadENV(this.configMap, this.envMap);
+
+    // connect to database
+    new Database();
 
     // activate graphQL endpoint
     this.gqlServer.applyMiddleware(
@@ -106,7 +68,11 @@ class App {
 
     // Listen
     this.server = createServer(this.app.callback())
-      .listen(this.port, this.host, this.report)
+      .listen(
+        this.configMap.get("port"),
+        this.configMap.get("host"),
+        this.report
+      )
 
   }
 }

@@ -52,7 +52,8 @@ const config = {
         from: resolve("./src", "configs"),
         to: 'configs',
         ignore: [
-          ".gitkeep"
+          ".gitkeep",
+          "*example.*"
         ]
       },
       { 
