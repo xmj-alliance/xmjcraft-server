@@ -16,4 +16,4 @@ const schema = new Schema({
 
 });
 
-export default model<UserDoc>("users", schema, "jinmoes");
+export default model<UserDoc>("users", schema, "users");
