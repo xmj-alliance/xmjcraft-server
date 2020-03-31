@@ -15,23 +15,23 @@ import Config from './config';
 import { loadENV } from './lib';
 
 class App {
-  app = new Koa();
-  clientPath = resolve(__dirname, "./statics/client");
-  server: Server;
-  gqlServer = new RootGraph().server;
-  router = new Router();
+  private app = new Koa();
+  private clientPath = resolve(__dirname, "./statics/client");
+  private server: Server;
+  private gqlServer = new RootGraph().server;
+  private router = new Router();
 
-  configMap = new Map<string, any>([
+  private configMap = new Map<string, any>([
     ["host", "127.0.0.1"],
     ["port", 3000],
   ]);
 
-  envMap = new Map([
+  private envMap = new Map([
     ["host", "KOA_HOST"],
     ["port", "KOA_PORT"],
   ]);
 
-  report = () => {
+  private report = () => {
     const { address, port } = this.server.address() as AddressInfo;
     console.log(`🎧 xmjcraft is listening on http://${address}:${port}/`);
   };

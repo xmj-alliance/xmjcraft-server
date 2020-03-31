@@ -1,6 +1,10 @@
+import { connect, Mongoose } from "mongoose";
+
 import { loadENV } from "../lib";
 
 export default class Database {
+
+  private instance: Mongoose | null = null;
 
   private configMap = new Map([
     ["user", "root"],
@@ -20,6 +24,27 @@ export default class Database {
 
   private uri = "";
 
+  connect = async () => {
+
+    try {
+
+      console.log(`💿 Establishing connection to DB ${ this.configMap.get("colData") }@${ this.configMap.get("host") }...`);
+      
+      this.instance = await connect(this.uri, {
+        useCreateIndex: true,
+        useNewUrlParser: true,
+        useFindAndModify: false,
+        useUnifiedTopology: true
+      });
+
+      console.log(`📀 ${ this.configMap.get("colData") }@${ this.configMap.get("host") } is now online `);
+      
+    } catch (error) {
+      console.log(`😧 We are having trouble reaching ${ this.configMap.get("colData") }@${ this.configMap.get("host") }: \n ${error.message}`);
+    }
+
+  };
+
   /**
    *
    */
@@ -38,7 +63,9 @@ export default class Database {
     `;
     // remove all white spaces
     this.uri = this.uri.replace(/\s+/g, '');
-    console.log(this.uri);
+
+    // connect to MongoDB
+    this.connect();
     
     
   }

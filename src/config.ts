@@ -13,15 +13,19 @@ interface AppConfig {
 
 export default class Config {
 
-  configPath = resolve(__dirname, "./configs");
+  private configPath = resolve(__dirname, "./configs");
 
-  configMap = new Map([
+  private configMap = new Map([
     ["KOA_HOST", "koa.host"],
     ["KOA_PORT", "koa.port"],
+    ["MONGO_USER", "mongo.user"],
+    ["MONGO_PASSWD", "mongo.password"],
     ["MONGO_HOST", "mongo.host"],
+    ["MONGO_COL_DATA", "mongo.collection.data"],
+    ["MONGO_COL_AUTH", "mongo.collection.auth"],
   ]);
 
-  loadConfig = () => {
+  private loadConfig = () => {
 
     let configs: AppConfig[] = [];
 
@@ -57,14 +61,33 @@ export default class Config {
     // TODO: priorities
 
     // combine configs to a single object
+    // TODO: recursively
     let appConfig = configs.reduce((total, current) => {
-      return Object.assign(total, current);
+      let mergedConfig = {
+        ...total,
+        ...current
+      };
+      for (let key in mergedConfig) {
+
+        if (mergedConfig[key] instanceof Array) {
+          mergedConfig[key] = [
+            ...total[key],
+            ...current[key]
+          ];
+        } else if (typeof mergedConfig[key] === "object") {
+          mergedConfig[key] = {
+            ...total[key],
+            ...current[key]
+          }
+        }
+      }
+      return mergedConfig;
     });
 
     return appConfig;
   };
 
-  applyConfig = (appConfig: AppConfig) => {
+  private applyConfig = (appConfig: AppConfig) => {
     // apply config to env
     for (let configEntry of this.configMap) {
 
@@ -83,10 +106,11 @@ export default class Config {
   /**
    *
    */
-  constructor() {
-    let config = this.loadConfig();
-    this.applyConfig(config);
-    
+  constructor(appConfig?: AppConfig) {
+    if (!appConfig) {
+      appConfig = this.loadConfig();
+    }
+    this.applyConfig(appConfig);
   }
 
 }

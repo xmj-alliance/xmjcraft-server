@@ -3,3 +3,11 @@
   koa:
     host: localhost
     port: 3000
+
+  mongo:
+    user: root                #  Put this to a seperate secret file!
+    password: passwordOfMongo #  Put this to a seperate secret file!
+    host: localhost:27017
+    collection: 
+      data: nameOfDataCollection
+      auth: nameOfAuthenticationDatabase
