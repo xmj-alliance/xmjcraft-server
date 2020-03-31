@@ -8,6 +8,6 @@
     user: root                #  Put this to a seperate secret file!
     password: passwordOfMongo #  Put this to a seperate secret file!
     host: localhost:27017
-    collection: 
+    db: 
       data: nameOfDataCollection
       auth: nameOfAuthenticationDatabase

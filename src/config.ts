@@ -21,8 +21,8 @@ export default class Config {
     ["MONGO_USER", "mongo.user"],
     ["MONGO_PASSWD", "mongo.password"],
     ["MONGO_HOST", "mongo.host"],
-    ["MONGO_COL_DATA", "mongo.collection.data"],
-    ["MONGO_COL_AUTH", "mongo.collection.auth"],
+    ["MONGO_DB_DATA", "mongo.db.data"],
+    ["MONGO_DB_AUTH", "mongo.db.auth"],
   ]);
 
   private loadConfig = () => {
@@ -106,9 +106,18 @@ export default class Config {
   /**
    *
    */
-  constructor(appConfig?: AppConfig) {
-    if (!appConfig) {
-      appConfig = this.loadConfig();
+  constructor(configOverride?: AppConfig) {
+    let appConfig = this.loadConfig();
+
+    if (configOverride) {
+
+      // TODO: config override
+
+      // for (let key in configOverride) {
+      //   let valueToSet = getNestedObject(configOverride, key.split("."));
+
+      // }
+      
     }
     this.applyConfig(appConfig);
   }
