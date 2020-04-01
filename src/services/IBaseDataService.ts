@@ -1,9 +1,9 @@
 import CUDMessage from "../models/CUDMessage";
 import { ViewOption } from "../database/view";
 
-export interface IBaseDataService {
-  getSingle: (uniqueField: string, options?: ViewOption) => Promise<any | null>,
-  getList: (condition: any, options?: ViewOption) => Promise<any[]>,
+export interface IBaseDataService<T> {
+  getSingle: (uniqueField: string, options?: ViewOption) => Promise<T | null>,
+  getList: (condition: any, options?: ViewOption) => Promise<T[]>,
   addSingle: (user: any) => Promise<CUDMessage>,
   updateSingle: (uniqueField: string, token: any) => Promise<CUDMessage>,
   updateList: (condition: any, token: any) => Promise<CUDMessage>,

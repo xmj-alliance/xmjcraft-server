@@ -13,7 +13,7 @@ export default class UserGraph {
 
   resolvers = {
     Query: {
-      users: () => this.service.getUsers({}),
+      users: async () => await this.service.getList({}),
     },
   };
 

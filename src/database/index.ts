@@ -2,9 +2,13 @@ import { connect, Mongoose } from "mongoose";
 
 import { loadENV } from "../lib";
 
+interface DBInitOption {
+  isAutoConnect: boolean
+}
+
 export default class Database {
 
-  private instance: Mongoose | null = null;
+  instance: Mongoose | null = null;
 
   private configMap = new Map([
     ["user", "root"],
@@ -43,12 +47,14 @@ export default class Database {
       console.log(`😧 We are having trouble reaching ${ this.configMap.get("dbData") }@${ this.configMap.get("host") }: \n ${error.message}`);
     }
 
+
+
   };
 
   /**
    *
    */
-  constructor() {
+  constructor(option?: DBInitOption) {
     
     // load config from env
     loadENV(this.configMap, this.envMap);
@@ -64,9 +70,11 @@ export default class Database {
     // remove all white spaces
     this.uri = this.uri.replace(/\s+/g, '');
 
-    // connect to MongoDB
-    this.connect();
-    
+
+    if (option && option.isAutoConnect) {
+      // connect to MongoDB
+      this.connect();
+    }
     
   }
 

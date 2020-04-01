@@ -49,7 +49,7 @@ class App {
     loadENV(this.configMap, this.envMap);
 
     // connect to database
-    new Database();
+    new Database({isAutoConnect: true});
 
     // activate graphQL endpoint
     this.gqlServer.applyMiddleware(

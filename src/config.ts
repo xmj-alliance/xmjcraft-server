@@ -1,13 +1,25 @@
 import { Dirent, readdirSync, readFileSync } from "fs";
 import { resolve } from "path";
 import { parse } from "yaml";
+import * as merge from "deepmerge";
+
 import { getNestedObject } from "./lib";
+
 
 interface AppConfig {
   [index: string]: any,
-  koa: {
-    host: string,
-    port: number,
+  koa?: {
+    host?: string,
+    port?: number,
+  },
+  mongo?: {
+    user?: string,
+    password?: string,
+    host?: string,
+    db?: {
+      data?: string,
+      auth?: string,
+    }
   }
 }
 
@@ -61,27 +73,8 @@ export default class Config {
     // TODO: priorities
 
     // combine configs to a single object
-    // TODO: recursively
     let appConfig = configs.reduce((total, current) => {
-      let mergedConfig = {
-        ...total,
-        ...current
-      };
-      for (let key in mergedConfig) {
-
-        if (mergedConfig[key] instanceof Array) {
-          mergedConfig[key] = [
-            ...total[key],
-            ...current[key]
-          ];
-        } else if (typeof mergedConfig[key] === "object") {
-          mergedConfig[key] = {
-            ...total[key],
-            ...current[key]
-          }
-        }
-      }
-      return mergedConfig;
+      return merge(total, current);
     });
 
     return appConfig;
@@ -110,15 +103,9 @@ export default class Config {
     let appConfig = this.loadConfig();
 
     if (configOverride) {
-
-      // TODO: config override
-
-      // for (let key in configOverride) {
-      //   let valueToSet = getNestedObject(configOverride, key.split("."));
-
-      // }
-      
+      appConfig = merge(appConfig, configOverride);
     }
+
     this.applyConfig(appConfig);
   }
 

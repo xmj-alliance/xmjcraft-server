@@ -2,7 +2,7 @@ import { ViewOption, buildProjection, buildPagination, buildSort } from "../data
 import { Model } from "mongoose";
 import { IBaseDataService } from "./IBaseDataService";
 
-export default class BaseDataService<T> implements IBaseDataService {
+export default class BaseDataService<T> implements IBaseDataService<T> {
 
   col: Model<any>;
   uniqueField = "";
