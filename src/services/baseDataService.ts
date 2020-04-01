@@ -12,7 +12,7 @@ export default class BaseDataService<T> implements IBaseDataService<T> {
     return <T>await this.col.findOne({[this.uniqueField]: uniqueField}, projections);
   }
 
-  getList = async <T>(condition: any, options: ViewOption = {}) => {
+  getList = async (condition: any, options: ViewOption = {}) => {
 
     let projections = buildProjection(options);
     let paginations = buildPagination(options);
