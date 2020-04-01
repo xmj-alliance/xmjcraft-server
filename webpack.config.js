@@ -39,7 +39,7 @@ const config = {
       },
       {
         test: /\.graphql|\.gql$/,
-        use: "graphql-tag/loader",
+        use: "graphql-import-loader",
         exclude: /node_modules/,
       }
     ]
