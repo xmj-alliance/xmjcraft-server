@@ -1,8 +1,21 @@
+# import { CUDMessage } from "src/models/cudMessage.graphql"
+
+scalar JSONObject
+
 type User {
   dbname: String
   name: String
 }
 
+input UserView {
+  dbname: String
+  name: String
+}
+
 type Query {
-  users: [User]
+  users(condition: JSONObject, options: JSONObject): [User]
+}
+
+type Mutation {
+  addUser(input: UserView!): CUDMessage
 }

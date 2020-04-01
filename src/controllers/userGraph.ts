@@ -1,20 +1,49 @@
-import { makeExecutableSchema } from "apollo-server-koa";
+import { makeExecutableSchema, IResolvers } from "apollo-server-koa";
+import { GraphQLJSONObject } from "graphql-type-json";
 
-import * as user from "../models/user.graphql";
+import * as userDefs from "../models/user.graphql";
 import { IUserService } from "../services/IUserService";
-// import MockUserService from "../services/mockUserService";
 import UserService from "../services/userService";
 
 export default class UserGraph {
 
-  typeDefs = user;
+  typeDefs = userDefs;
 
   service: IUserService;
 
-  resolvers = {
+  resolvers: IResolvers = {
     Query: {
-      users: async () => await this.service.getList({}),
+      users: async (obj, args) => {
+
+        // Because we use GraphQLJSONObject scalar type
+        // args.conditions and args.options are JSON not String
+
+        let condition = {} as any;
+        let options = {} as any;
+        
+        if (args.condition) {
+          condition = args.condition;
+        }
+
+        if (args.options) {
+          options = args.options;
+        }
+
+        return await this.service.getList(condition, options);
+      },
     },
+    Mutation: {
+      addUser: async (obj, args) => {
+        let message = await this.service.addSingle(args.input);
+        if (message.ok) {
+          message.message = `Add success`;
+        } else {
+          message.message = `Add failure`;
+        }
+        return message;
+      },
+    },
+    JSONObject: GraphQLJSONObject,
   };
 
   schema = makeExecutableSchema({typeDefs: this.typeDefs, resolvers: this.resolvers})
@@ -25,7 +54,6 @@ export default class UserGraph {
   constructor() {
     
     // provide service
-
     this.service = new UserService();
 
     // based on a variable to see use DB or not
