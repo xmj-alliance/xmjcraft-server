@@ -3,7 +3,7 @@ import { connect, Mongoose } from "mongoose";
 import { loadENV } from "../lib";
 
 interface DBInitOption {
-  isAutoConnect: boolean
+  isManualConnect: boolean
 }
 
 export default class Database {
@@ -71,7 +71,9 @@ export default class Database {
     this.uri = this.uri.replace(/\s+/g, '');
 
 
-    if (option && option.isAutoConnect) {
+    if (option && option.isManualConnect) {
+      console.log(`Won't auto connect DB`);
+    } else {
       // connect to MongoDB
       this.connect();
     }

@@ -9,5 +9,5 @@
     password: passwordOfMongo #  Put this to a seperate secret file!
     host: localhost:27017
     db: 
-      data: nameOfDataCollection
+      data: nameOfAppDatabase
       auth: nameOfAuthenticationDatabase
