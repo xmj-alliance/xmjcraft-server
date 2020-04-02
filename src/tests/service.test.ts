@@ -14,15 +14,27 @@ beforeAll(async () => {
 });
 
 describe("Service Tests", () => {
-  
+
   afterEach(async () => {
     if (db && db.instance) {
       return await db.instance.connection.dropDatabase();
     }
   });
 
-  userSpec;
 
+  test("User Tests", () => {
+    userSpec;
+  });
+  
+  // test("Other Tests", () => {
+  //   OtherSpec;
+  // });
 
 })
+
+// afterAll(async () => {
+//   if (db && db.instance) {
+//     return await db.instance.connection.dropDatabase();
+//   }
+// });
 

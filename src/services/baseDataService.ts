@@ -42,6 +42,27 @@ export default class BaseDataService<T> implements IBaseDataService<T> {
 
   };
 
+  addList = async (newItems: T[]) => {
+    try {
+      await this.col.create(newItems);
+    } catch (error) {
+      
+      return {
+        ok: false,
+        numAffected: 0,
+        message: error.message,
+      }
+
+    }
+    
+    return {
+      ok: true,
+      numAffected: newItems.length,
+      message: "",
+    }
+
+  };
+
   updateSingle = async (uniqueField: string, token: any) => {
 
     try {
@@ -66,7 +87,7 @@ export default class BaseDataService<T> implements IBaseDataService<T> {
   updateList = async (condition: any, token: any) => {
 
     try {
-      let updateResult = await this.col.update(condition, token, {multi: true});
+      let updateResult = await this.col.updateMany(condition, token);
 
       return {
         ok: true,

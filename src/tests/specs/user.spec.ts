@@ -1,6 +1,4 @@
 
-// export const testSuite = () => describe("", async() => {});
-
 import UserService from "../../services/userService";
 
 export const userSpec = describe("User Inspection", () => {
@@ -27,13 +25,9 @@ export const userSpec = describe("User Inspection", () => {
 
     test("Add some users", async () => {
 
-      let numAdded = 0;
-      for (let user of users) {
-        let message = await service.addSingle(user);
-        numAdded += message.numAffected;
-      }
+      let message = await service.addList(users);
 
-      expect(numAdded).toEqual(users.length);
+      expect(message.numAffected).toEqual(users.length);
       
     });
 
@@ -100,6 +94,20 @@ export const userSpec = describe("User Inspection", () => {
       let userInDB = await service.getList(condition);
       expect(userInDB.length).toBeLessThanOrEqual(0);
 
+    });
+
+
+    test("Add a user", async () => {
+
+      let user = {
+        dbname: "user-angularBiter",
+        name: "Jian jiao jiao",
+      };
+
+      let message = await service.addSingle(user);
+
+      expect(message.numAffected).toEqual(1);
+      
     });
 
   });
