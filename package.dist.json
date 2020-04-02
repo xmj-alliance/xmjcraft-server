@@ -1,0 +1,22 @@
+{
+  "name": "xmjcraft-server",
+  "version": "0.1.0",
+  "main": "xmjcraft.js",
+  "private": true,
+  "scripts": {
+    "start": "node dist/xmjcraft"
+  },
+  "dependencies": {
+    "@koa/cors": "^3.0.0",
+    "@koa/router": "^8.0.8",
+    "apollo-server-koa": "^2.11.0",
+    "deepmerge": "^4.2.2",
+    "graphql": "^14.6.0",
+    "graphql-type-json": "^0.3.1",
+    "koa": "^2.11.0",
+    "koa-logger": "^3.2.1",
+    "koa-static": "^5.0.0",
+    "mongoose": "^5.9.7",
+    "yaml": "^1.8.3"
+  }
+}
