@@ -33,7 +33,7 @@ class App {
 
   private report = () => {
     const { address, port } = this.server.address() as AddressInfo;
-    console.log(`🎧 xmjcraft is listening on http://${address}:${port}/`);
+    console.log(`🎧 App: xmjcraft is listening on http://${address}:${port}/`);
   };
 
   constructor() {

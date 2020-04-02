@@ -32,7 +32,7 @@ export default class Database {
 
     try {
 
-      console.log(`💿 Establishing connection to DB: ${ this.configMap.get("dbData") }@${ this.configMap.get("host") }...`);
+      console.log(`💿 DB: Establishing connection to ${ this.configMap.get("dbData") }@${ this.configMap.get("host") }...`);
       
       this.instance = await connect(this.uri, {
         useCreateIndex: true,
@@ -41,10 +41,10 @@ export default class Database {
         useUnifiedTopology: true
       });
 
-      console.log(`📀 ${ this.configMap.get("dbData") }@${ this.configMap.get("host") } is now online `);
+      console.log(`📀 DB: ${ this.configMap.get("dbData") }@${ this.configMap.get("host") } is now online `);
       
     } catch (error) {
-      console.log(`😧 We are having trouble reaching ${ this.configMap.get("dbData") }@${ this.configMap.get("host") }: \n ${error.message}`);
+      console.log(`😧 DB: We are having trouble reaching ${ this.configMap.get("dbData") }@${ this.configMap.get("host") }: \n ${error.message}`);
     }
 
 
@@ -72,7 +72,7 @@ export default class Database {
 
 
     if (option && option.isManualConnect) {
-      console.log(`Won't auto connect DB`);
+      console.log(`DB: Won't auto connect.`);
     } else {
       // connect to MongoDB
       this.connect();

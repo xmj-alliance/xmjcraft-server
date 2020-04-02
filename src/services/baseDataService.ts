@@ -129,7 +129,7 @@ export default class BaseDataService<T> implements IBaseDataService<T> {
   deleteList = async (condition: any) => {
 
     try {
-      let deleteResult = await this.col.remove(condition);
+      let deleteResult = await this.col.deleteMany(condition);
 
       return {
         ok: true,

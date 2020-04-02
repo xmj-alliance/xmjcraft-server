@@ -13,9 +13,15 @@ input UserView {
 }
 
 type Query {
+  user(dbname: String, options: JSONObject): User
   users(condition: JSONObject, options: JSONObject): [User]
 }
 
 type Mutation {
-  addUser(input: UserView!): CUDMessage
+  addUser(input: UserView!, options: JSONObject): CUDMessage
+  addUsers(input: [UserView]!, options: JSONObject): CUDMessage
+  updateUser(dbname: String!, token: JSONObject!): CUDMessage
+  updateUsers(condition: JSONObject!, token: JSONObject!): CUDMessage
+  deleteUser(dbname: String!): CUDMessage
+  deleteUsers(condition: JSONObject!): CUDMessage
 }
