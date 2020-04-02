@@ -6,7 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 
 const env = process.env.NODE_ENV;
-const isDevMode = (env && env.toLowerCase() === "development");
+const isDevMode = (env && env.toLowerCase() === "development") || false;
 
 const config = {
   mode: "production",
