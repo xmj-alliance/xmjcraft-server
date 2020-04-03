@@ -72,10 +72,15 @@ export default class Config {
 
     // TODO: priorities
 
+    
+    let appConfig = {} as AppConfig;
+
     // combine configs to a single object
-    let appConfig = configs.reduce((total, current) => {
-      return merge(total, current);
-    });
+    if (configs.length > 0) {
+      appConfig = configs.reduce((total, current) => {
+        return merge(total, current);
+      });
+    }
 
     return appConfig;
   };
