@@ -18,8 +18,8 @@ type Query {
 }
 
 type Mutation {
-  addUser(input: UserView!, options: JSONObject): CUDMessage
-  addUsers(input: [UserView]!, options: JSONObject): CUDMessage
+  addUser(input: UserView!): CUDMessage
+  addUsers(input: [UserView]!): CUDMessage
   updateUser(dbname: String!, token: JSONObject!): CUDMessage
   updateUsers(condition: JSONObject!, token: JSONObject!): CUDMessage
   deleteUser(dbname: String!): CUDMessage
