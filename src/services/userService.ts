@@ -1,5 +1,5 @@
 import { IUserService } from "./IUserService";
-import User from "../models/User";
+import User from "../models/user";
 import users from "../database/schema/userSchema"
 import BaseDataService from "./baseDataService";
 

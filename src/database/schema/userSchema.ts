@@ -1,5 +1,5 @@
 import { model, Schema, Document } from "mongoose";
-import User from "../../models/User";
+import User from "../../models/user";
 
 interface UserDoc extends User, Document {}
 

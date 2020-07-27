@@ -1,4 +1,4 @@
-import CUDMessage from "../models/CUDMessage";
+import CUDMessage from "../models/cudMessage";
 import { ViewOption } from "../database/view";
 
 export interface IBaseDataService<T> {
